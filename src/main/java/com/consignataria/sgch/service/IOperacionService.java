@@ -1,5 +1,7 @@
 package com.consignataria.sgch.service;
 
-public class IOperacionService {
-    
+import com.consignataria.sgch.model.Operacion;
+
+public interface IOperacionService {
+    boolean registrarOperacion(Long idCliente, Operacion op);
 }
