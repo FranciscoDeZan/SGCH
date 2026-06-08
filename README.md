@@ -48,8 +48,6 @@ El núcleo del sistema está diseñado respetando estrictamente los 4 pilares de
 
 * `/src/main/java/.../model`: Entidades del dominio y estructuras de datos (`List<Operacion>`).
 * `/src/main/java/.../service`: Capa de lógica de negocio y algoritmos de validación.
-* `/src/main/java/.../controller`: Controladores HTTP para la gestión de peticiones web.
-* `/src/main/resources/templates`: Vistas dinámicas en Thymeleaf.
 * `sgch_db.sql`: Script DDL (Creación de tablas con integridad referencial) y DML (Inserción de datos de prueba) para MySQL.
 
 ---
