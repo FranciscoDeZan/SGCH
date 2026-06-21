@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SGCH - Nueva Operación</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 40px;">
+    <h2>Registrar Operación Comercial</h2>
+    
+    <p style="color: red; font-weight: bold;" th:if="${error}" th:text="${error}"></p>
+
+    <form action="/operaciones/registrar" method="post">
+        <label>ID del Cliente (Debe existir en BD):</label><br>
+        <input type="number" name="idCliente" required><br><br>
+
+        <label>Monto Total ($):</label><br>
+        <input type="number" step="0.01" name="montoTotal" required><br><br>
+
+        <label>Tipo de Hacienda (Ej. Novillo, Vaquillona):</label><br>
+        <input type="text" name="tipoHacienda" required><br><br>
+
+        <button type="submit" style="padding: 10px 20px; background-color: #28a745; color: white; border: none;">Guardar Operación</button>
+    </form>
+</body>
+</html>
