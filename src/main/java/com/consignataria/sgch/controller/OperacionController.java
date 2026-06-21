@@ -14,32 +14,30 @@ public class OperacionController {
 
     private final IOperacionService operacionService;
 
-    // INYECCIÓN POR CONSTRUCTOR (Soluciona la advertencia de @Autowired)
     public OperacionController(IOperacionService operacionService) {
         this.operacionService = operacionService;
     }
 
-    // MÉTODO PARA MOSTRAR LA PANTALLA
     @GetMapping("/formulario")
     public String mostrarFormulario() {
         return "vistaFormulario";
     }
 
-    // MÉTODO PARA PROCESAR EL GUARDADO
     @PostMapping("/registrar")
     public String procesarRegistro(@RequestParam Long idCliente, 
                                    @RequestParam Double montoTotal, 
                                    @RequestParam String tipoHacienda,
+                                   @RequestParam Integer cantidad,
                                    Model model) {
         
-        Operacion nuevaOp = new Operacion(idCliente, LocalDateTime.now(), montoTotal, tipoHacienda);
+        Operacion nuevaOp = new Operacion(idCliente, LocalDateTime.now(), montoTotal, tipoHacienda, cantidad);
         boolean exito = operacionService.registrarOperacion(idCliente, nuevaOp);
         
         if (exito) {
-            model.addAttribute("mensaje", "Operación registrada correctamente.");
+            model.addAttribute("mensaje", "Operación registrada correctamente en la base de datos.");
             return "vistaExito"; 
         } else {
-            model.addAttribute("error", "Fallo al registrar. Verifique las reglas de negocio (RN02).");
+            model.addAttribute("error", "Fallo al registrar. Verifique la Regla de Negocio (2 horas) o que el Cliente exista.");
             return "vistaFormulario"; 
         }
     }
