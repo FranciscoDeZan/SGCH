@@ -20,6 +20,11 @@ public class OperacionController {
     @Autowired
     private IOperacionService operacionService;
 
+    // Método para mostrar la pantalla HTML
+    @GetMapping("/formulario")
+    public String mostrarFormulario() {
+        return "vistaFormulario"; // Busca el archivo vistaFormulario.html en templates
+    }
     // Simula la recepción de un formulario web para registrar una operación
     @PostMapping("/registrar")
     public String procesarRegistro(@RequestParam Long idCliente, 
