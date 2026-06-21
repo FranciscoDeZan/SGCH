@@ -13,7 +13,7 @@ public class Operacion {
     private Long idOperacion;
 
     @Column(name = "id_cliente", nullable = false)
-    private Long idCliente; // Referencia relacional simplificada para el prototipo
+    private Long idCliente;
 
     @Column(name = "fecha_hora", nullable = false)
     private LocalDateTime fechaHora;
@@ -24,14 +24,17 @@ public class Operacion {
     @Column(name = "tipo_hacienda", nullable = false, length = 50)
     private String tipoHacienda;
 
-    // Constructor vacío exigido por JPA (Hibernate)
+    @Column(name = "cantidad", nullable = false)
+    private Integer cantidad; // El campo faltante, integrado correctamente
+
     public Operacion() {}
 
-    public Operacion(Long idCliente, LocalDateTime fechaHora, Double montoTotal, String tipoHacienda) {
+    public Operacion(Long idCliente, LocalDateTime fechaHora, Double montoTotal, String tipoHacienda, Integer cantidad) {
         this.idCliente = idCliente;
         this.fechaHora = fechaHora;
         this.montoTotal = montoTotal;
         this.tipoHacienda = tipoHacienda;
+        this.cantidad = cantidad;
     }
 
     // Getters y Setters
@@ -49,4 +52,7 @@ public class Operacion {
 
     public String getTipoHacienda() { return tipoHacienda; }
     public void setTipoHacienda(String tipoHacienda) { this.tipoHacienda = tipoHacienda; }
+
+    public Integer getCantidad() { return cantidad; }
+    public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
 }
