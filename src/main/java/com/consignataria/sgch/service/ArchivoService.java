@@ -1,0 +1,43 @@
+package com.consignataria.sgch.service;
+
+import com.consignataria.sgch.model.Operacion;
+import org.springframework.stereotype.Service;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * Servicio encargado del manejo de Entrada/Salida (I/O) de archivos.
+ */
+@Service
+public class ArchivoService {
+
+    private static final String RUTA_ARCHIVO = "resumen_operaciones.txt";
+
+    /**
+     * Exporta una lista de operaciones a un archivo de texto utilizando FileWriter y BufferedWriter.
+     * @param operaciones Lista (ArrayList) de operaciones a exportar.
+     */
+    public void exportarResumenDiario(List<Operacion> operaciones) {
+        // Uso de try-with-resources para asegurar el cierre del archivo
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(RUTA_ARCHIVO, false))) {
+            
+            writer.write("--- RESUMEN DIARIO SGCH ---");
+            writer.newLine();
+            
+            for (Operacion op : operaciones) {
+                writer.write("ID Op: " + op.getIdOperacion() + 
+                             " | ID Cliente: " + op.getIdCliente() + 
+                             " | Monto: $" + op.getMontoTotal() +
+                             " | Hacienda: " + op.getTipoHacienda());
+                writer.newLine();
+            }
+            System.out.println("Archivo de resumen generado exitosamente en: " + RUTA_ARCHIVO);
+            
+        } catch (IOException e) {
+            System.err.println("Error crítico de Entrada/Salida (I/O) al escribir el archivo: " + e.getMessage());
+        }
+    }
+}
