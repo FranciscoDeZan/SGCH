@@ -2,24 +2,58 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SGCH - Nueva Operación</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body style="font-family: Arial, sans-serif; margin: 40px;">
-    <h2>Registrar Operación Comercial</h2>
+<body class="bg-light">
     
-    <p style="color: red; font-weight: bold;" th:if="${error}" th:text="${error}"></p>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0">Registrar Operación Comercial</h4>
+                    </div>
+                    <div class="card-body">
+                        
+                        <div th:if="${error}" class="alert alert-danger" role="alert">
+                            <span th:text="${error}"></span>
+                        </div>
 
-    <form action="/operaciones/registrar" method="post">
-        <label>ID del Cliente (Debe existir en BD):</label><br>
-        <input type="number" name="idCliente" required><br><br>
+                        <form action="/operaciones/registrar" method="post">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">ID del Cliente</label>
+                                <input type="number" class="form-control" name="idCliente" placeholder="Ej: 1" required>
+                                <div class="form-text">El cliente debe estar previamente registrado.</div>
+                            </div>
 
-        <label>Monto Total ($):</label><br>
-        <input type="number" step="0.01" name="montoTotal" required><br><br>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Monto Total ($)</label>
+                                <input type="number" step="0.01" class="form-control" name="montoTotal" placeholder="0.00" required>
+                            </div>
 
-        <label>Tipo de Hacienda (Ej. Novillo, Vaquillona):</label><br>
-        <input type="text" name="tipoHacienda" required><br><br>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label class="form-label fw-bold">Tipo de Hacienda</label>
+                                    <input type="text" class="form-control" name="tipoHacienda" placeholder="Ej: Novillos" required>
+                                </div>
+                                <div class="col">
+                                    <label class="form-label fw-bold">Cantidad (Cabezas)</label>
+                                    <input type="number" class="form-control" name="cantidad" placeholder="0" required>
+                                </div>
+                            </div>
 
-        <button type="submit" style="padding: 10px 20px; background-color: #28a745; color: white; border: none;">Guardar Operación</button>
-    </form>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success btn-lg">Guardar Operación</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

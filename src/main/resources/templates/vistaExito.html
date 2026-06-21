@@ -2,14 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SGCH - Éxito</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body style="font-family: Arial, sans-serif; margin: 40px; text-align: center;">
-    <h1 style="color: #28a745;">¡Operación Registrada con Éxito!</h1>
-    
-    <p th:text="${mensaje}" style="font-size: 1.2em;"></p>
-    
-    <br>
-    <a href="/operaciones/vistaFormulario" style="text-decoration: none; color: #007bff;">Volver al formulario</a>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <div class="card shadow-sm border-success">
+                    <div class="card-body py-5">
+                        <h1 class="display-4 text-success mb-3">✔️</h1>
+                        <h2 class="text-success mb-4">¡Operación Exitosa!</h2>
+                        
+                        <p class="lead" th:text="${mensaje}"></p>
+                        
+                        <hr class="my-4">
+                        
+                        <a href="/operaciones/formulario" class="btn btn-outline-success">Registrar Nueva Operación</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
