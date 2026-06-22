@@ -41,4 +41,15 @@ public class OperacionController {
             return "vistaFormulario"; 
         }
     }
+    // NUEVO CONTROLADOR: Para la pantalla de Resumen
+    @GetMapping("/resumen")
+    public String mostrarResumen(Model model) {
+        // Obtenemos los datos y exportamos el archivo
+        var operaciones = operacionService.obtenerResumenYExportar();
+        
+        // Mandamos el ArrayList al HTML
+        model.addAttribute("listaOperaciones", operaciones);
+        
+        return "vistaResumen"; // Busca vistaResumen.html
+    }
 }
