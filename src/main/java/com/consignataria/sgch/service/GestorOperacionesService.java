@@ -7,20 +7,22 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.Duration;
+import java.util.List;
 
 @Service
 public class GestorOperacionesService implements IOperacionService {
 
     private final OperacionRepository operacionRepository;
+    private final ArchivoService archivoService; // NUEVA DEPENDENCIA
 
-    // INYECCIÓN POR CONSTRUCTOR (Soluciona la advertencia de @Autowired)
-    public GestorOperacionesService(OperacionRepository operacionRepository) {
+    // Inyectamos ambos repositorios por constructor
+    public GestorOperacionesService(OperacionRepository operacionRepository, ArchivoService archivoService) {
         this.operacionRepository = operacionRepository;
+        this.archivoService = archivoService;
     }
 
     @Override
     public boolean registrarOperacion(Long idCliente, Operacion op) {
-        // ... (El resto del método se mantiene exactamente igual con los try-catch)
         try {
             validarLimiteTiempo(op.getFechaHora());
             op.setIdCliente(idCliente);
@@ -31,13 +33,23 @@ public class GestorOperacionesService implements IOperacionService {
             System.err.println("Error de validación (RN02): " + e.getMessage());
             return false;
         } catch (DataAccessException e) {
-            System.err.println("Error crítico al guardar en la base de datos: " + e.getMessage());
+            System.err.println("Error crítico en base de datos: " + e.getMessage());
             return false;
         }
     }
 
+    // NUEVO MÉTODO: Trae datos de BD, activa el ArrayList y exporta el archivo TXT
+    @Override
+    public List<Operacion> obtenerResumenYExportar() {
+        List<Operacion> listaOperaciones = operacionRepository.findAll();
+        
+        // Cumplimos con la consigna de Manejo de Archivos (I/O)
+        archivoService.exportarResumenDiario(listaOperaciones);
+        
+        return listaOperaciones;
+    }
+
     private void validarLimiteTiempo(LocalDateTime fechaOperacion) throws IllegalArgumentException {
-        // ... (El método validarLimiteTiempo se mantiene igual)
         LocalDateTime ahora = LocalDateTime.now();
         Duration diferencia = Duration.between(fechaOperacion, ahora);
         long minutosTranscurridos = diferencia.toMinutes();

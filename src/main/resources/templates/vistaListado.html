@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SGCH - Panel de Operaciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="card shadow-sm border-primary">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Historial y Resumen de Operaciones</h4>
+                <span class="badge bg-light text-dark">Archivo TXT Exportado Automáticamente</span>
+            </div>
+            <div class="card-body">
+                
+                <table class="table table-hover table-bordered mt-3">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID Operación</th>
+                            <th>ID Cliente</th>
+                            <th>Fecha y Hora</th>
+                            <th>Hacienda</th>
+                            <th>Cantidad</th>
+                            <th>Monto Total ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="op : ${operaciones}">
+                            <td th:text="${op.idOperacion}"></td>
+                            <td th:text="${op.idCliente}"></td>
+                            <td th:text="${#temporals.format(op.fechaHora, 'dd/MM/yyyy HH:mm')}"></td>
+                            <td th:text="${op.tipoHacienda}"></td>
+                            <td th:text="${op.cantidad}"></td>
+                            <td th:text="${op.montoTotal}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <hr>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="/operaciones/formulario" class="btn btn-outline-success">Registrar Nueva Operación</a>
+                    <a href="/clientes/formulario" class="btn btn-outline-secondary">Registrar Cliente</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
