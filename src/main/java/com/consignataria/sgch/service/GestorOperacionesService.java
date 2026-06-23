@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class GestorOperacionesService implements IOperacionService {
@@ -27,6 +28,9 @@ public class GestorOperacionesService implements IOperacionService {
     @Override
     public boolean registrarOperacion(Long idCliente, Operacion op) {
         try {
+            // Aseguramos que el idCliente no sea nulo para cumplir con las anotaciones @NonNull
+            Objects.requireNonNull(idCliente, "idCliente no puede ser null");
+
             validarLimiteTiempo(op.getFechaHora());
 
             com.consignataria.sgch.model.Cliente clienteEncontrado = clienteRepository.findById(idCliente)
