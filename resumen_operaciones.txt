@@ -1,6 +1,0 @@
---- RESUMEN DIARIO SGCH ---
-ID Op: 1 | Productor: Estancia La Rural | Cabezas: 26 | Hacienda: Novillos | Monto: $1000000.0
-ID Op: 4 | Productor: Estancia La Rural | Cabezas: 0 | Hacienda: Gatos | Monto: $0.0
-ID Op: 5 | Productor: Estancia La Rural | Cabezas: 340 | Hacienda: Terneros | Monto: $1.0E8
-ID Op: 6 | Productor: Juan Perez | Cabezas: 100 | Hacienda: Novillos | Monto: $1.0E8
-ID Op: 7 | Productor: fran perez | Cabezas: 20 | Hacienda: Novillos | Monto: $1.23456789E8
