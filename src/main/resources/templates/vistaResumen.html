@@ -20,7 +20,7 @@
                     <thead class="table-dark">
                         <tr>
                             <th>ID Op.</th>
-                            <th>ID Cliente</th>
+                            <th>Productor</th> 
                             <th>Fecha y Hora</th>
                             <th>Hacienda</th>
                             <th>Cabezas</th>
@@ -30,7 +30,7 @@
                     <tbody>
                         <tr th:each="op : ${listaOperaciones}">
                             <td th:text="${op.idOperacion}"></td>
-                            <td th:text="${op.idCliente}"></td>
+                            <td class="fw-bold" th:text="${op.cliente.nombre}"></td>
                             <td th:text="${#temporals.format(op.fechaHora, 'dd/MM/yyyy HH:mm')}"></td>
                             <td th:text="${op.tipoHacienda}"></td>
                             <td th:text="${op.cantidad}"></td>
@@ -42,8 +42,7 @@
         </div>
 
         <div class="mt-4">
-            <a href="/operaciones/formulario" class="btn btn-outline-success">Registrar Nueva Operación</a>
-            <a href="/clientes/formulario" class="btn btn-outline-primary">Ir a Clientes</a>
+            <a href="/" class="btn btn-outline-dark">Volver al Menú Principal</a>
         </div>
     </div>
 

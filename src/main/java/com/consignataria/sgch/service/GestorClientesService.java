@@ -21,11 +21,10 @@ public class GestorClientesService implements IClienteService {
             if (cliente.getTelefono() == null || cliente.getTelefono().trim().isEmpty()) {
                 throw new IllegalArgumentException("El teléfono es obligatorio.");
             }
-            
+
             clienteRepository.save(cliente);
             System.out.println("Cliente persistido con éxito: " + cliente.getNombre());
             return true;
-            
         } catch (IllegalArgumentException e) {
             System.err.println("Error de validación: " + e.getMessage());
             return false;
@@ -33,5 +32,10 @@ public class GestorClientesService implements IClienteService {
             System.err.println("Error en BD (Posible teléfono duplicado): " + e.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public java.util.List<Cliente> obtenerTodos() {
+        return clienteRepository.findAll();
     }
 }

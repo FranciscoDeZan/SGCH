@@ -1,6 +1,7 @@
 package com.consignataria.sgch.controller;
 
 import com.consignataria.sgch.model.Operacion;
+import com.consignataria.sgch.service.IClienteService;
 import com.consignataria.sgch.service.IOperacionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,13 +14,16 @@ import java.time.LocalDateTime;
 public class OperacionController {
 
     private final IOperacionService operacionService;
+    private final IClienteService clienteService;
 
-    public OperacionController(IOperacionService operacionService) {
+    public OperacionController(IOperacionService operacionService, IClienteService clienteService) {
         this.operacionService = operacionService;
+        this.clienteService = clienteService;
     }
 
     @GetMapping("/formulario")
-    public String mostrarFormulario() {
+    public String mostrarFormulario(Model model) {
+        model.addAttribute("listaClientes", clienteService.obtenerTodos());
         return "vistaFormulario";
     }
 
@@ -30,7 +34,7 @@ public class OperacionController {
                                    @RequestParam Integer cantidad,
                                    Model model) {
         
-        Operacion nuevaOp = new Operacion(idCliente, LocalDateTime.now(), montoTotal, tipoHacienda, cantidad);
+        Operacion nuevaOp = new Operacion(LocalDateTime.now(), montoTotal, tipoHacienda, cantidad);
         boolean exito = operacionService.registrarOperacion(idCliente, nuevaOp);
         
         if (exito) {

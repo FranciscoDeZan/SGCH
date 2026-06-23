@@ -12,8 +12,9 @@ public class Operacion {
     @Column(name = "id_operacion")
     private Long idOperacion;
 
-    @Column(name = "id_cliente", nullable = false)
-    private Long idCliente;
+    @ManyToOne
+    @JoinColumn(name = "id_cliente", nullable = false)
+    private Cliente cliente; // Ahora la operación conoce al Cliente completo
 
     @Column(name = "fecha_hora", nullable = false)
     private LocalDateTime fechaHora;
@@ -29,8 +30,7 @@ public class Operacion {
 
     public Operacion() {}
 
-    public Operacion(Long idCliente, LocalDateTime fechaHora, Double montoTotal, String tipoHacienda, Integer cantidad) {
-        this.idCliente = idCliente;
+    public Operacion(LocalDateTime fechaHora, Double montoTotal, String tipoHacienda, Integer cantidad) {
         this.fechaHora = fechaHora;
         this.montoTotal = montoTotal;
         this.tipoHacienda = tipoHacienda;
@@ -41,8 +41,8 @@ public class Operacion {
     public Long getIdOperacion() { return idOperacion; }
     public void setIdOperacion(Long idOperacion) { this.idOperacion = idOperacion; }
 
-    public Long getIdCliente() { return idCliente; }
-    public void setIdCliente(Long idCliente) { this.idCliente = idCliente; }
+    public Cliente getCliente() { return cliente; }
+    public void setCliente(Cliente cliente) { this.cliente = cliente; }
 
     public LocalDateTime getFechaHora() { return fechaHora; }
     public void setFechaHora(LocalDateTime fechaHora) { this.fechaHora = fechaHora; }

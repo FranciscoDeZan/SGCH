@@ -23,9 +23,14 @@
 
                         <form action="/operaciones/registrar" method="post">
                             <div class="mb-3">
-                                <label class="form-label fw-bold">ID del Cliente</label>
-                                <input type="number" class="form-control" name="idCliente" placeholder="Ej: 1" required>
-                                <div class="form-text">El cliente debe estar previamente registrado.</div>
+                                <label class="form-label fw-bold">Productor (Cliente)</label>
+                                <select class="form-select" name="idCliente" required>
+                                    <option value="" disabled selected>Seleccione un productor registrado...</option>
+                                    <option th:each="cliente : ${listaClientes}" 
+                                            th:value="${cliente.id}" 
+                                            th:text="${cliente.nombre + ' (' + cliente.ubicacionCampo + ')'}">
+                                    </option>
+                                </select>
                             </div>
 
                             <div class="mb-3">
@@ -36,7 +41,14 @@
                             <div class="row mb-3">
                                 <div class="col">
                                     <label class="form-label fw-bold">Tipo de Hacienda</label>
-                                    <input type="text" class="form-control" name="tipoHacienda" placeholder="Ej: Novillos" required>
+                                    <select class="form-select" name="tipoHacienda" required>
+                                        <option value="" disabled selected>Elija categoría...</option>
+                                        <option value="Novillos">Novillos</option>
+                                        <option value="Vaquillonas">Vaquillonas</option>
+                                        <option value="Terneros/as">Terneros/as</option>
+                                        <option value="Vacas Invernada">Vacas de Invernada</option>
+                                        <option value="Toros">Toros</option>
+                                    </select>
                                 </div>
                                 <div class="col">
                                     <label class="form-label fw-bold">Cantidad (Cabezas)</label>
@@ -44,9 +56,9 @@
                                 </div>
                             </div>
 
-                           <div class="d-grid gap-2">
+                            <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-success btn-lg">Guardar Operación</button>
-                                <a href="/clientes/formulario" class="btn btn-outline-secondary">Ir a Registrar Cliente</a>
+                                <a href="/" class="btn btn-outline-secondary">Volver al Menú Principal</a>
                             </div>
                         </form>
 

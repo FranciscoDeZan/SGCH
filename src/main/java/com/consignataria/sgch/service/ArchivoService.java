@@ -29,9 +29,10 @@ public class ArchivoService {
             
             for (Operacion op : operaciones) {
                 writer.write("ID Op: " + op.getIdOperacion() + 
-                             " | ID Cliente: " + op.getIdCliente() + 
-                             " | Monto: $" + op.getMontoTotal() +
-                             " | Hacienda: " + op.getTipoHacienda());
+             " | Productor: " + op.getCliente().getNombre() + // Muestra el nombre!
+             " | Cabezas: " + op.getCantidad() +
+             " | Hacienda: " + op.getTipoHacienda() +
+             " | Monto: $" + op.getMontoTotal());
                 writer.newLine();
             }
             System.out.println("Archivo de resumen generado exitosamente en: " + RUTA_ARCHIVO);

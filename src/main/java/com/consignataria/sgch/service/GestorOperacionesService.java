@@ -1,6 +1,7 @@
 package com.consignataria.sgch.service;
 
 import com.consignataria.sgch.model.Operacion;
+import com.consignataria.sgch.repository.ClienteRepository;
 import com.consignataria.sgch.repository.OperacionRepository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -14,18 +15,24 @@ public class GestorOperacionesService implements IOperacionService {
 
     private final OperacionRepository operacionRepository;
     private final ArchivoService archivoService; // NUEVA DEPENDENCIA
+    private final ClienteRepository clienteRepository;
 
     // Inyectamos ambos repositorios por constructor
-    public GestorOperacionesService(OperacionRepository operacionRepository, ArchivoService archivoService) {
+    public GestorOperacionesService(OperacionRepository operacionRepository, ArchivoService archivoService, ClienteRepository clienteRepository) {
         this.operacionRepository = operacionRepository;
         this.archivoService = archivoService;
+        this.clienteRepository = clienteRepository;
     }
 
     @Override
     public boolean registrarOperacion(Long idCliente, Operacion op) {
         try {
             validarLimiteTiempo(op.getFechaHora());
-            op.setIdCliente(idCliente);
+
+            com.consignataria.sgch.model.Cliente clienteEncontrado = clienteRepository.findById(idCliente)
+                    .orElseThrow(() -> new IllegalArgumentException("El cliente no existe en la BD"));
+
+            op.setCliente(clienteEncontrado);
             operacionRepository.save(op);
             System.out.println("Operación persistida con éxito en MySQL para el cliente: " + idCliente);
             return true;
@@ -34,6 +41,9 @@ public class GestorOperacionesService implements IOperacionService {
             return false;
         } catch (DataAccessException e) {
             System.err.println("Error crítico en base de datos: " + e.getMessage());
+            return false;
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
             return false;
         }
     }
