@@ -1,11 +1,16 @@
 package com.consignataria.sgch.service;
 
 import com.consignataria.sgch.model.Operacion;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -40,5 +45,18 @@ public class ArchivoService {
         } catch (IOException e) {
             System.err.println("Error crítico de Entrada/Salida (I/O) al escribir el archivo: " + e.getMessage());
         }
+    }
+
+    /**
+     * Recupera (lee) el archivo físico del disco para enviarlo al cliente.
+     * CUMPLE CON EL REQUISITO: "Recuperar información relevante".
+     */
+    public Resource recuperarRespaldoComoRecurso() throws IOException {
+        Path path = Paths.get(RUTA_ARCHIVO);
+        if (!Files.exists(path)) {
+            throw new IOException("El archivo de respaldo no existe aún.");
+        }
+        byte[] data = Files.readAllBytes(path);
+        return new ByteArrayResource(data);
     }
 }

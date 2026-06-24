@@ -1,8 +1,13 @@
 package com.consignataria.sgch.controller;
 
 import com.consignataria.sgch.model.Operacion;
+import com.consignataria.sgch.service.ArchivoService;
 import com.consignataria.sgch.service.IClienteService;
 import com.consignataria.sgch.service.IOperacionService;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +20,12 @@ public class OperacionController {
 
     private final IOperacionService operacionService;
     private final IClienteService clienteService;
+    private final ArchivoService archivoService;
 
-    public OperacionController(IOperacionService operacionService, IClienteService clienteService) {
+    public OperacionController(IOperacionService operacionService, IClienteService clienteService, ArchivoService archivoService) {
         this.operacionService = operacionService;
         this.clienteService = clienteService;
+        this.archivoService = archivoService;
     }
 
     @GetMapping("/formulario")
@@ -55,5 +62,18 @@ public class OperacionController {
         model.addAttribute("listaOperaciones", operaciones);
         
         return "vistaResumen"; // Busca vistaResumen.html
+    }
+
+    @GetMapping("/descargar-respaldo")
+    public ResponseEntity<Resource> descargarRespaldo() {
+        try {
+            Resource recurso = archivoService.recuperarRespaldoComoRecurso();
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=respaldo_sgch.txt")
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .body(recurso);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }
