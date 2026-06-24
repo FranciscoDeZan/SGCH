@@ -1,59 +1,57 @@
-# 🐄 SGCH - Sistema de Gestión Integral para Consignatarios de Haciendas
+# Sistema de Gestión Integral para Consignatarios de Haciendas (SGCH) 🐄
 
-[![Java Version](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.14-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![MySQL](https://img.shields.io/badge/MySQL-8.0-blue.svg)](https://www.mysql.com/)
+Este repositorio contiene el prototipo operacional del sistema **SGCH**, desarrollado como trabajo final integrador para la materia *Seminario de Práctica de Informática* (Universidad Siglo 21).
 
-Este repositorio contiene el prototipo operacional del sistema **SGCH**, un software de gestión comercial diseñado específicamente para optimizar la trazabilidad de operaciones, la gestión de clientes y la automatización de seguimientos en el sector ganadero. 
-
-Desarrollado como proyecto integrador para la materia **Seminario de Práctica de Informática** (Universidad Siglo 21).
+El SGCH busca digitalizar y optimizar las operaciones de intermediación ganadera en el Nordeste Argentino, abandonando los registros en papel para migrar hacia una solución robusta, centralizada y escalable.
 
 ---
 
-## 🚀 Características Principales (Módulos)
+## 🏗️ Arquitectura y Tecnologías
+El sistema fue construido siguiendo el **Proceso Unificado de Desarrollo (PUD)** y aplica el patrón arquitectónico **MVC (Modelo-Vista-Controlador)**.
 
-* **Gestión de Entidades Comerciales:** Registro y administración de productores y compradores con perfiles detallados (ubicación, preferencias de ganado).
-* **Control Transaccional:** Registro de operaciones comerciales con cálculo automático de comisiones y estados de liquidación.
-* **Motor de Reglas de Negocio:** Validación estricta de tiempo de carga de operaciones (Regla RN02 - Límite de carga diferida de 2 horas) mediante algoritmos de control de flujo.
-* **Trazabilidad y Colecciones:** Historial dinámico de operaciones vinculado a cada cliente.
-
----
-
-## 🛠️ Stack Tecnológico
-
-El proyecto está construido bajo una arquitectura multicapa (MVC) utilizando las siguientes tecnologías:
-
-* **Lenguaje Core:** Java 17 (LTS)
-* **Framework Principal:** Spring Boot 3.5.14
-* **Gestor de Dependencias:** Apache Maven
-* **Persistencia de Datos:** Spring Data JPA / Hibernate
-* **Motor Base de Datos:** MySQL 8.0
-* **Frontend (Vistas):** HTML5, CSS3, Thymeleaf
+* **Backend:** Java 17 + Spring Boot 3.5.x
+* **Persistencia de Datos (ORM):** Spring Data JPA / Hibernate
+* **Motor de Base de Datos:** MySQL 8.0
+* **Frontend (Vistas):** HTML5 + Thymeleaf + Bootstrap 5
+* **Manejo de Archivos:** E/S nativa de Java (Generación y recuperación de TXT vía HTTP)
+* **Paradigma:** Programación Orientada a Objetos (POO) estricta (Herencia, Polimorfismo, Encapsulamiento, Abstracción).
 
 ---
 
-## 🧠 Arquitectura y Diseño (POO)
-
-El núcleo del sistema está diseñado respetando estrictamente los 4 pilares de la Programación Orientada a Objetos para garantizar escalabilidad y mantenimiento:
-
-1. **Abstracción:** Definición de contratos de servicio mediante interfaces (ej. `IOperacionService`) para desacoplar la lógica de negocio de los controladores.
-2. **Encapsulamiento:** Ocultamiento del estado interno de las entidades de dominio (atributos `private` con acceso vía getters/setters).
-3. **Herencia:** Implementación de la superclase abstracta `Persona` que hereda atributos base (nombre, teléfono) a subclases específicas como `Cliente`.
-4. **Polimorfismo:** Sobrescritura de métodos (`@Override`) como `mostrarDetalle()` para adaptar el comportamiento según el tipo de entidad.
-5. **Robustez:** Manejo estructurado de excepciones (bloques `try-catch` y `throw new IllegalArgumentException`) para proteger la integridad del sistema ante datos inválidos.
+## ⚙️ Características Principales (Casos de Uso)
+1. **Gestión de Productores (CU-01):** Alta de clientes con validación de datos y protección contra duplicados.
+2. **Registro de Operaciones (CU-02):** Registro transaccional de compra/venta de hacienda relacionando dinámicamente objetos en BD (`@ManyToOne`).
+3. **Reglas de Negocio (RN02):** Implementación de algoritmos de control de tiempo (bloqueo de operaciones con más de 2 horas de antigüedad).
+4. **Respaldo Físico (I/O):** Exportación y descarga directa desde el navegador de resúmenes operativos en archivos `.txt`.
 
 ---
 
-## ⚙️ Estructura del Repositorio
+## 🚀 Instalación y Despliegue Local
 
-* `/src/main/java/.../model`: Entidades del dominio y estructuras de datos (`List<Operacion>`).
-* `/src/main/java/.../service`: Capa de lógica de negocio y algoritmos de validación.
-* `sgch_db.sql`: Script DDL (Creación de tablas con integridad referencial) y DML (Inserción de datos de prueba) para MySQL.
+### Prerrequisitos
+* Java Development Kit (JDK) 17 o superior.
+* Maven instalado.
+* Motor MySQL (XAMPP o MySQL Server).
+
+### Pasos
+
+1. **Clonar el repositorio:**
+    git clone https://github.com/FranciscoDeZan/SGCH.git
+
+2. **Preparar la Base de Datos:**
+    Abrir MySQL Workbench o phpMyAdmin y ejecutar el script alojado en la raíz del proyecto: `sgch_db.sql`.
+
+3. **Configurar Credenciales:**
+    Verificar el archivo `src/main/resources/application.properties` y ajustar la contraseña de la base de datos MySQL local.
+
+4. **Ejecutar la Aplicación:**
+    Desde la terminal en la raíz del proyecto, ejecutar:
+    ./mvnw spring-boot:run
+
+5. **Acceder al Sistema:**
+    Abrir un navegador web e ingresar a: http://localhost:8080/
 
 ---
 
 ## 👨‍💻 Autor
-
-**Francisco De Zan** * **Legajo:** VINF016466
-* **Institución:** Universidad Siglo 21
-* **Carrera:** Licenciatura en Informática
+**Francisco De Zan** - *Legajo: VINF016466* Licenciatura en Informática - Universidad Siglo 21
