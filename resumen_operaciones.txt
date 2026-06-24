@@ -1,0 +1,14 @@
+--- RESUMEN DIARIO SGCH ---
+ID Op: 1 | Productor: Estancia La Rural | Cabezas: 26 | Hacienda: Novillos | Monto: $1000000.0
+ID Op: 4 | Productor: Estancia La Rural | Cabezas: 0 | Hacienda: Gatos | Monto: $0.0
+ID Op: 5 | Productor: Estancia La Rural | Cabezas: 340 | Hacienda: Terneros | Monto: $1.0E8
+ID Op: 6 | Productor: Juan Perez | Cabezas: 100 | Hacienda: Novillos | Monto: $1.0E8
+ID Op: 7 | Productor: fran perez | Cabezas: 20 | Hacienda: Novillos | Monto: $1.23456789E8
+ID Op: 8 | Productor: Juan Lecler | Cabezas: 50 | Hacienda: Terneros/as | Monto: $1.231242354E9
+ID Op: 9 | Productor: Estancia La Rural | Cabezas: 11 | Hacienda: Vaquillonas | Monto: $2000000.0
+ID Op: 10 | Productor: Juan Perez | Cabezas: 123 | Hacienda: Vacas Invernada | Monto: $1.0E8
+ID Op: 11 | Productor: fran perez | Cabezas: 10 | Hacienda: Toros | Monto: $10000.0
+ID Op: 12 | Productor: Juan Lecler | Cabezas: 32 | Hacienda: Terneros/as | Monto: $100000.0
+ID Op: 13 | Productor: Gaston Fernandez | Cabezas: -3 | Hacienda: Novillos | Monto: $-9.0
+ID Op: 14 | Productor: Gaston Fernandez | Cabezas: 10 | Hacienda: Vacas Invernada | Monto: $1.0E7
+ID Op: 15 | Productor: Gianna Banana Lucchini | Cabezas: 70 | Hacienda: Terneros/as | Monto: $1.0E8
