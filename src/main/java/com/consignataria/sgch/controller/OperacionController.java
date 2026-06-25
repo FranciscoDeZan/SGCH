@@ -53,19 +53,30 @@ public class OperacionController {
             return "vistaFormulario"; 
         }
     }
+    // =======================================================
+    // 1. ENDPOINT PARA MOSTRAR LA PANTALLA WEB (HTML)
+    // =======================================================
     @GetMapping("/resumen")
+    public String mostrarResumen(Model model) {
+        // Aquí matamos dos pájaros de un tiro: 
+        // Recuperamos la lista para inyectarla en el HTML y, simultáneamente, 
+        // el servicio actualiza/escribe el archivo físico .txt de respaldo.
+        model.addAttribute("listaOperaciones", operacionService.obtenerResumenYExportar());
+        
+        // Retornamos la vista Thymeleaf (vistaResumen.html)
+        return "vistaResumen";
+    }
+
+    // =======================================================
+    // 2. ENDPOINT EXCLUSIVO PARA DESCARGAR EL ARCHIVO (TXT)
+    // =======================================================
+    @GetMapping("/descargar-respaldo")
     public ResponseEntity<Resource> descargarResumen() {
         try {
-            // 1. Cierre del Ciclo I/O: Obligamos al servicio a generar/actualizar el archivo físico
-            // con los datos más recientes de la base de datos antes de intentar leerlo.
-            operacionService.obtenerResumenYExportar();
-
-            // 2. Recuperamos el recurso físico recién consolidado
+            // El archivo ya fue generado al entrar a la pantalla anterior. 
+            // Ahora solo lo recuperamos (Lectura I/O).
             Resource resource = archivoService.recuperarArchivoResumen();
 
-            // 3. Despachamos el archivo al cliente. 
-            // Se eliminó el 'Objects.requireNonNull' sobre la constante nativa de Spring 
-            // para mantener la pulcritud y el rigor académico del código.
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"resumen_operaciones.txt\"")
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
