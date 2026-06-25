@@ -1,6 +1,7 @@
 package com.consignataria.sgch.service;
 
 import com.consignataria.sgch.model.Operacion;
+import com.consignataria.sgch.repository.OperacionRepository;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Servicio encargado del manejo de Entrada/Salida (I/O) de archivos.
@@ -21,6 +21,11 @@ import java.util.Objects;
 public class ArchivoService {
 
     private static final String RUTA_ARCHIVO = "resumen_operaciones.txt";
+    private final OperacionRepository operacionRepository;
+
+    public ArchivoService(OperacionRepository operacionRepository) {
+        this.operacionRepository = operacionRepository;
+    }
 
     /**
      * Exporta una lista de operaciones a un archivo de texto utilizando FileWriter y BufferedWriter.
@@ -49,20 +54,18 @@ public class ArchivoService {
     }
 
     /**
-     * Recupera (lee) el archivo físico del disco para enviarlo al cliente.
-     * CUMPLE CON EL REQUISITO: "Recuperar información relevante".
+     * Recupera el archivo de resumen, generándolo de forma segura si aún no existe.
      */
-    public Resource recuperarRespaldoComoRecurso() throws IOException {
+    public Resource recuperarArchivoResumen() throws IOException {
         Path path = Paths.get(RUTA_ARCHIVO);
-        if (!Files.exists(path)) {
-            throw new IOException("El archivo de respaldo no existe aún.");
+        if (!Files.exists(path) || Files.size(path) == 0) {
+            List<Operacion> operaciones = operacionRepository.findAll();
+            exportarResumenDiario(operaciones);
         }
 
-        byte[] data = Objects.requireNonNull(
-            Files.readAllBytes(path),
-            "No se pudo leer el contenido del archivo de respaldo"
-        );
+        byte[] data = Files.readAllBytes(path);
+        byte[] contenido = data != null ? data : new byte[0];
 
-        return new ByteArrayResource(data);
+        return new ByteArrayResource(contenido);
     }
 }

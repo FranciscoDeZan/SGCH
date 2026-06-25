@@ -6,6 +6,7 @@ import com.consignataria.sgch.service.IClienteService;
 import com.consignataria.sgch.service.IOperacionService;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -53,34 +54,22 @@ public class OperacionController {
             return "vistaFormulario"; 
         }
     }
-    // NUEVO CONTROLADOR: Para la pantalla de Resumen
     @GetMapping("/resumen")
-    public String mostrarResumen(Model model) {
-        // Obtenemos los datos y exportamos el archivo
-        var operaciones = operacionService.obtenerResumenYExportar();
-        
-        // Mandamos el ArrayList al HTML
-        model.addAttribute("listaOperaciones", operaciones);
-        
-        return "vistaResumen"; // Busca vistaResumen.html
-    }
-
-    @GetMapping("/descargar-respaldo")
-    public ResponseEntity<Resource> descargarRespaldo() {
+    public ResponseEntity<Resource> descargarResumen() {
         try {
-            Resource recurso = archivoService.recuperarRespaldoComoRecurso();
+            Resource resource = archivoService.recuperarArchivoResumen();
 
             MediaType mediaType = Objects.requireNonNull(
-                MediaType.TEXT_PLAIN,
-                "El tipo de contenido no puede ser nulo"
+                    MediaType.APPLICATION_OCTET_STREAM,
+                    "El tipo de contenido no puede ser nulo"
             );
 
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=respaldo_sgch.txt")
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"resumen_operaciones.txt\"")
                     .contentType(mediaType)
-                    .body(recurso);
+                    .body(resource);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }
