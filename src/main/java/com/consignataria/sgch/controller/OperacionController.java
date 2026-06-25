@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/operaciones")
@@ -57,18 +56,23 @@ public class OperacionController {
     @GetMapping("/resumen")
     public ResponseEntity<Resource> descargarResumen() {
         try {
+            // 1. Cierre del Ciclo I/O: Obligamos al servicio a generar/actualizar el archivo físico
+            // con los datos más recientes de la base de datos antes de intentar leerlo.
+            operacionService.obtenerResumenYExportar();
+
+            // 2. Recuperamos el recurso físico recién consolidado
             Resource resource = archivoService.recuperarArchivoResumen();
 
-            MediaType mediaType = Objects.requireNonNull(
-                    MediaType.APPLICATION_OCTET_STREAM,
-                    "El tipo de contenido no puede ser nulo"
-            );
-
+            // 3. Despachamos el archivo al cliente. 
+            // Se eliminó el 'Objects.requireNonNull' sobre la constante nativa de Spring 
+            // para mantener la pulcritud y el rigor académico del código.
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"resumen_operaciones.txt\"")
-                    .contentType(mediaType)
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(resource);
+                    
         } catch (Exception e) {
+            System.err.println("Error en la descarga del resumen I/O: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
