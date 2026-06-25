@@ -28,6 +28,18 @@ public class Operacion {
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad; // El campo faltante, integrado correctamente
 
+    @Column(name = "comision_comprador")
+    private Double comisionComprador = 0.0;
+
+    @Column(name = "comision_vendedor")
+    private Double comisionVendedor = 0.0;
+
+    @Column(name = "peso_promedio")
+    private Double pesoPromedio = 0.0;
+
+    @Column(name = "estado_liquidacion")
+    private String estadoLiquidacion = "PENDIENTE";
+
     public Operacion() {}
 
     public Operacion(LocalDateTime fechaHora, Double montoTotal, String tipoHacienda, Integer cantidad) {
@@ -35,6 +47,16 @@ public class Operacion {
         this.montoTotal = montoTotal;
         this.tipoHacienda = tipoHacienda;
         this.cantidad = cantidad;
+    }
+
+    public void calcularComisiones() {
+        if (this.montoTotal != null && this.montoTotal > 0) {
+            this.comisionComprador = this.montoTotal * 0.03;
+            this.comisionVendedor = this.montoTotal * 0.02;
+        } else {
+            this.comisionComprador = 0.0;
+            this.comisionVendedor = 0.0;
+        }
     }
 
     // Getters y Setters
@@ -55,4 +77,16 @@ public class Operacion {
 
     public Integer getCantidad() { return cantidad; }
     public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
+
+    public Double getComisionComprador() { return comisionComprador; }
+    public void setComisionComprador(Double comisionComprador) { this.comisionComprador = comisionComprador; }
+
+    public Double getComisionVendedor() { return comisionVendedor; }
+    public void setComisionVendedor(Double comisionVendedor) { this.comisionVendedor = comisionVendedor; }
+
+    public Double getPesoPromedio() { return pesoPromedio; }
+    public void setPesoPromedio(Double pesoPromedio) { this.pesoPromedio = pesoPromedio; }
+
+    public String getEstadoLiquidacion() { return estadoLiquidacion; }
+    public void setEstadoLiquidacion(String estadoLiquidacion) { this.estadoLiquidacion = estadoLiquidacion; }
 }

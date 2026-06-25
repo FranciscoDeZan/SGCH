@@ -6,4 +6,5 @@ import java.util.List; // Importante agregar esto
 public interface IOperacionService {
     boolean registrarOperacion(Long idCliente, Operacion op);
     List<Operacion> obtenerResumenYExportar(); // NUEVO MÉTODO
+    void calcularSaldos(Double monto);
 }
