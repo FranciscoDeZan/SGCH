@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Servicio encargado del manejo de Entrada/Salida (I/O) de archivos.
@@ -56,7 +57,12 @@ public class ArchivoService {
         if (!Files.exists(path)) {
             throw new IOException("El archivo de respaldo no existe aún.");
         }
-        byte[] data = Files.readAllBytes(path);
+
+        byte[] data = Objects.requireNonNull(
+            Files.readAllBytes(path),
+            "No se pudo leer el contenido del archivo de respaldo"
+        );
+
         return new ByteArrayResource(data);
     }
 }
