@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/operaciones")
@@ -68,9 +69,15 @@ public class OperacionController {
     public ResponseEntity<Resource> descargarRespaldo() {
         try {
             Resource recurso = archivoService.recuperarRespaldoComoRecurso();
+
+            MediaType mediaType = Objects.requireNonNull(
+                MediaType.TEXT_PLAIN,
+                "El tipo de contenido no puede ser nulo"
+            );
+
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=respaldo_sgch.txt")
-                    .contentType(MediaType.TEXT_PLAIN)
+                    .contentType(mediaType)
                     .body(recurso);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
