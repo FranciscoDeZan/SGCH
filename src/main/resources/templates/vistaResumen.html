@@ -39,7 +39,7 @@
                             <td th:text="${#temporals.format(op.fechaHora, 'dd/MM/yyyy HH:mm')}"></td>
                             <td th:text="${op.tipoHacienda}"></td>
                             <td th:text="${op.cantidad}"></td>
-                            <td class="fw-bold text-success" th:text="${op.montoTotal}"></td>
+                            <td th:text="${#numbers.formatDecimal(op.montoTotal, 1,'POINT' , 2, 'COMMA')}"></td>
                         </tr>
                     </tbody>
                 </table>
