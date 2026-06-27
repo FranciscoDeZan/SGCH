@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +38,7 @@ public class GestorOperacionesService implements IOperacionService {
                     .orElseThrow(() -> new IllegalArgumentException("El cliente no existe en la BD"));
 
             op.setCliente(clienteEncontrado);
+            clienteEncontrado.agregarOperacion(op);
             op.calcularComisiones();
             operacionRepository.save(op);
             System.out.println("Operación persistida con éxito en MySQL para el cliente: " + idCliente);
@@ -47,21 +49,19 @@ public class GestorOperacionesService implements IOperacionService {
         } catch (DataAccessException e) {
             System.err.println("Error crítico en base de datos: " + e.getMessage());
             return false;
-        } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
-            return false;
-        }
+        } 
     }
 
-    // NUEVO MÉTODO: Trae datos de BD, activa el ArrayList y exporta el archivo TXT
+    
     @Override
     public List<Operacion> obtenerResumenYExportar() {
-        List<Operacion> listaOperaciones = operacionRepository.findAll();
-        
-        // Cumplimos con la consigna de Manejo de Archivos (I/O)
+    List<Operacion> listaOperaciones = operacionRepository.findAll();
+    try {
         archivoService.exportarResumenDiario(listaOperaciones);
-        
-        return listaOperaciones;
+    } catch (IOException e) {
+        System.err.println("Fallo al exportar TXT: " + e.getMessage());
+    }
+    return listaOperaciones;
     }
 
     private void validarLimiteTiempo(LocalDateTime fechaOperacion) throws IllegalArgumentException {
@@ -78,7 +78,7 @@ public class GestorOperacionesService implements IOperacionService {
     @Override
     public void calcularSaldos(Double monto) {
         // Implementación metodológica para cumplir con la trazabilidad del diagrama de secuencia.
-        // En un TPS académico, valida el impacto del flujo financiero de la operación expuesta.
+        
         if (monto == null || monto < 0) {
             throw new IllegalArgumentException("El monto para el cálculo de saldos no puede ser negativo o nulo.");
         }

@@ -31,28 +31,24 @@ public class ArchivoService {
      * Exporta una lista de operaciones a un archivo de texto utilizando FileWriter y BufferedWriter.
      * @param operaciones Lista (ArrayList) de operaciones a exportar.
      */
-    public void exportarResumenDiario(List<Operacion> operaciones) {
-        // Uso de try-with-resources para asegurar el cierre del archivo
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(RUTA_ARCHIVO, false))) {
-            
-            writer.write("--- RESUMEN DIARIO SGCH ---");
+    public void exportarResumenDiario(List<Operacion> operaciones) throws IOException {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(RUTA_ARCHIVO, false))) {
+        writer.write("--- RESUMEN DIARIO SGCH ---");
+        writer.newLine();
+        for (Operacion op : operaciones) {
+            writer.write("ID Op: " + op.getIdOperacion() +
+                 " | Productor: " + op.getCliente().getNombre() +
+                 " | Cabezas: " + op.getCantidad() +
+                 " | Hacienda: " + op.getTipoHacienda() +
+                 " | Monto: $" + op.getMontoTotal());
             writer.newLine();
-            
-            for (Operacion op : operaciones) {
-                writer.write("ID Op: " + op.getIdOperacion() + 
-             " | Productor: " + op.getCliente().getNombre() + // Muestra el nombre!
-             " | Cabezas: " + op.getCantidad() +
-             " | Hacienda: " + op.getTipoHacienda() +
-             " | Monto: $" + op.getMontoTotal());
-                writer.newLine();
-            }
-            System.out.println("Archivo de resumen generado exitosamente en: " + RUTA_ARCHIVO);
-            
-        } catch (IOException e) {
-            System.err.println("Error crítico de Entrada/Salida (I/O) al escribir el archivo: " + e.getMessage());
         }
+        System.out.println("Archivo generado: " + RUTA_ARCHIVO);
+    } catch (IOException e) {
+        System.err.println("Error crítico I/O al escribir archivo: " + e.getMessage());
+        throw e;  
     }
-
+}
     /**
      * Recupera el archivo de resumen, generándolo de forma segura si aún no existe.
      */
