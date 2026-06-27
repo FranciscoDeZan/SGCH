@@ -3,6 +3,12 @@ package com.consignataria.sgch.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * CLASE DE ENTIDAD - CAPA DE MODELO: Representa una transacción comercial 
+ * de compra o venta de hacienda dentro del dominio del negocio ganadero.
+ * * PILAR POO - ENCAPSULAMIENTO: Todos los atributos son privados y su estado
+ * interno se gestiona exclusivamente mediante métodos accesores públicos.
+ */
 @Entity
 @Table(name = "operaciones")
 public class Operacion {
@@ -12,9 +18,14 @@ public class Operacion {
     @Column(name = "id_operacion")
     private Long idOperacion;
 
+    /**
+     * RELACIÓN ORIENTADA A OBJETOS: Mapea una relación de muchos a uno (@ManyToOne).
+     * Múltiples operaciones pertenecen a un único cliente. El atributo 'nullable = false'
+     * exige la presencia de la entidad fuerte para evitar registros huérfanos en la BD.
+     */
     @ManyToOne
     @JoinColumn(name = "id_cliente", nullable = false)
-    private Cliente cliente; // Ahora la operación conoce al Cliente completo
+    private Cliente cliente; 
 
     @Column(name = "fecha_hora", nullable = false)
     private LocalDateTime fechaHora;
@@ -26,7 +37,7 @@ public class Operacion {
     private String tipoHacienda;
 
     @Column(name = "cantidad", nullable = false)
-    private Integer cantidad; // El campo faltante, integrado correctamente
+    private Integer cantidad; 
 
     @Column(name = "comision_comprador")
     private Double comisionComprador = 0.0;
@@ -40,8 +51,15 @@ public class Operacion {
     @Column(name = "estado_liquidacion")
     private String estadoLiquidacion = "PENDIENTE";
 
+    /**
+     * Constructor por defecto requerido obligatoriamente por JPA/Hibernate.
+     */
     public Operacion() {}
 
+    /**
+     * Constructor sobrecargado para la inicialización estructurada de transacciones 
+     * desde la capa de presentación.
+     */
     public Operacion(LocalDateTime fechaHora, Double montoTotal, String tipoHacienda, Integer cantidad) {
         this.fechaHora = fechaHora;
         this.montoTotal = montoTotal;
@@ -49,6 +67,11 @@ public class Operacion {
         this.cantidad = cantidad;
     }
 
+    /**
+     * LÓGICA DE NEGOCIO ENCAPSULADA: El objeto de dominio calcula de forma autónoma
+     * sus propias comisiones comerciales (3% comprador, 2% vendedor). 
+     * Evita el antipatrón de "modelo anémico" al centralizar la lógica aquí en lugar de en el controlador.
+     */
     public void calcularComisiones() {
         if (this.montoTotal != null && this.montoTotal > 0) {
             this.comisionComprador = this.montoTotal * 0.03;
@@ -59,7 +82,9 @@ public class Operacion {
         }
     }
 
-    // Getters y Setters
+    // =======================================================
+    // MÉTODOS ACCESORES (Mantenimiento del Encapsulamiento)
+    // =======================================================
     public Long getIdOperacion() { return idOperacion; }
     public void setIdOperacion(Long idOperacion) { this.idOperacion = idOperacion; }
 
