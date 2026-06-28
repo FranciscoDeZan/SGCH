@@ -7,7 +7,7 @@ El SGCH opera como un **Sistema de Procesamiento de Transacciones (TPS)** que bu
 ---
 
 ## 🎥 Demostración del Prototipo
-🎬 **[INGRESAR AQUÍ EL LINK DE YOUTUBE O GOOGLE DRIVE AL VIDEO DE 3 MINUTOS]**
+🎬 **https://youtu.be/wHwkmiIw9BE**
 
 El video recorre: el contexto de la problemática comercial, la demostración del registro de clientes y operaciones, la validación en tiempo real de la Regla de Negocio 02 (límite de 2 horas), y la generación del respaldo físico de Entrada/Salida.
 
